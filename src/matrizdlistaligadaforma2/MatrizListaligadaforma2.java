@@ -123,7 +123,52 @@ public class MatrizListaligadaforma2 {
 
     @Override
     public String toString() {
-        return "MatrizListaligadaforma2{" + "nodoConfiguracion=" + nodoConfiguracion + '}';
+        StringBuilder cadena = new StringBuilder();
+        // Obtengo la configuración de la matriz, fr y cr y la cantidadValores
+        Tripleta configuracion = nodoConfiguracion.getT();
+        int fr = configuracion.getF();
+        int cr = configuracion.getC();
+        // Imprimir una línea con encabezado de las columnas
+        cadena.append("\t");
+        for (int i = 1; i <= cr; i++) {
+            cadena.append(i + "\t");
+        }
+        cadena.append("\n");
+
+        NodoDoble nodoCabeza = nodoConfiguracion.getLigaF();
+        NodoDoble nodoRecorrido = nodoCabeza.getLigaF();
+        // Recorrido por una matriz virtual m x n
+        for (int fv = 1; fv <= fr; fv++) {
+            cadena.append(fv + "\t");
+            for (int cv = 1; cv <= cr; cv++) {
+                if (nodoRecorrido != null && nodoRecorrido != nodoCabeza) {
+                    Tripleta triMo = nodoRecorrido.getT();
+                    int ft = triMo.getF();
+                    int ct = triMo.getC();
+                    if (fv == ft) {
+                        if (cv < ct) {
+                            cadena.append("0\t");
+                        } else if (cv == ct) {
+                            Object vt = triMo.getV();
+                            if (vt != null) {
+                                cadena.append(vt + "\t");
+                            } else {
+                                cadena.append("ERROR x COLUMNAS!!!!");
+                            }
+                            nodoRecorrido = nodoRecorrido.getLigaF();
+                        } else {
+                            cadena.append("ERROR x COLUMNAS se paso!!!!");
+                        }
+                    } else {
+                        cadena.append("0\t");
+                    }
+                } else {
+                    cadena.append("0\t");
+                }
+            }
+            cadena.append("\n");
+        }
+        return cadena.toString();
     }
     
 }
