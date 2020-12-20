@@ -24,9 +24,9 @@ package matrizdlistaligadaforma2;
 
 public class Tripleta {
     private int f,c;
-    Object v;
+    int v;
 
-    public Tripleta(int f, int c, Object v) {
+    public Tripleta(int f, int c, int v) {
         this.f = f;
         this.c = c;
         this.v = v;
@@ -48,11 +48,11 @@ public class Tripleta {
         this.c = c;
     }
 
-    public Object getV() {
+    public int getV() {
         return v;
     }
 
-    public void setV(Object v) {
+    public void setV(int v) {
         this.v = v;
     }
 
