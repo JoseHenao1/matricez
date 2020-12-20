@@ -357,6 +357,7 @@ public class Ejecutable extends javax.swing.JFrame {
                 colaboradorT[j]=temp[j].trim();
                 
             }
+            
             colaboradorT[1]=temporal[0];
             colaboradorT[2]=temporal[1];
             int []colaborador=new int[colaboradorT.length];
@@ -371,8 +372,8 @@ public class Ejecutable extends javax.swing.JFrame {
     
     private void CrearMatriz(int filaInicial,int filaFinal,int valor){
         int z=filas-1;
+        int w,x,y=0;
         for (int i = filaInicial; i <= filaFinal; i++) {
-            int w,x,y=0;
             w=i;
             if (i>filas) {
                 w=i%filas;
