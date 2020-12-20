@@ -19,7 +19,7 @@ public class MatrizListaligadaforma2 {
         nodoConfiguracion.setLigaF(cabeza);
     }
     
-    public void setCelda(int fila, int columna, double valor) {
+    public void setCelda(int fila, int columna, int valor) {
         Tripleta nuevoTripletaRegistro = new Tripleta(fila, columna, valor);
         setCelda(nuevoTripletaRegistro);
     }
@@ -28,7 +28,7 @@ public class MatrizListaligadaforma2 {
         NodoDoble nuevoNodo = new NodoDoble(t);
         conectarFilas(nuevoNodo);
         conectarColumnas(nuevoNodo);
-        int c = (Integer) nodoConfiguracion.getT().getV();
+        int c = nodoConfiguracion.getT().getV();
         nodoConfiguracion.getT().setV(c++);
     }
     
@@ -130,7 +130,7 @@ public class MatrizListaligadaforma2 {
         int cr = configuracion.getC();
         // Imprimir una línea con encabezado de las columnas
         cadena.append("\t");
-        for (int i = 1; i <= cr; i++) {
+        for (int i = 0; i < cr; i++) {
             cadena.append(i + "\t");
         }
         cadena.append("\n");
@@ -138,10 +138,41 @@ public class MatrizListaligadaforma2 {
         NodoDoble nodoCabeza = nodoConfiguracion.getLigaF();
         NodoDoble nodoRecorrido = nodoCabeza.getLigaF();
         // Recorrido por una matriz virtual m x n
-        for (int fv = 1; fv <= fr; fv++) {
+        for (int fv = 0; fv<fr; fv++) {
             cadena.append(fv + "\t");
-            for (int cv = 1; cv <= cr; cv++) {
+            for (int cv = 0; cv < cr; cv++) {
                 if (nodoRecorrido != null && nodoRecorrido != nodoCabeza) {
+                    Tripleta triMo = nodoRecorrido.getT();
+                    int ft = triMo.getF();
+                    int ct = triMo.getC();
+                    if (fv == ft) {
+                        if (cv < ct) {
+                            cadena.append("0\t");
+                        } else if (cv == ct) {
+                            int vt = triMo.getV();
+                            if (vt==1) {
+                                cadena.append(vt + "\t");
+                            } else {
+                                cadena.append("0\t");
+                            }
+                            nodoRecorrido = nodoRecorrido.getLigaF();
+                        } else {
+                            cadena.append("ERROR x COLUMNAS se paso!!!!");
+                        }
+                    } else {
+                        cadena.append("0\t");
+                    }
+                } else {
+                    cadena.append("0\t");
+                }
+            }
+            cadena.append("\n");
+        }
+        return cadena.toString();
+    }
+    
+}
+/*if (nodoRecorrido != null && nodoRecorrido != nodoCabeza) {
                     Tripleta triMo = nodoRecorrido.getT();
                     int ft = triMo.getF();
                     int ct = triMo.getC();
@@ -164,11 +195,4 @@ public class MatrizListaligadaforma2 {
                     }
                 } else {
                     cadena.append("0\t");
-                }
-            }
-            cadena.append("\n");
-        }
-        return cadena.toString();
-    }
-    
-}
+                }*/
