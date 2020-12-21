@@ -5,6 +5,7 @@
  */
 package matrizdlistaligadaforma2;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileReader;
 import javax.swing.JFileChooser;
@@ -21,15 +22,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Ejecutable extends javax.swing.JFrame {
     private String clave = "admin";
     private String usuarios = "admin";
-    private int[][] matCostos;
-    private String[] estaciones;//contiene los nombres de las estaciones
-    public int[][] matTemp;
-    public String[] estTemp;
-    public JFrame lienzo;
-    public JPanel pin;
-    public boolean banderita = true;
     JTextArea areamatriz = new JTextArea();
     MatrizListaligadaforma2 obj;
+    private String cadenita;
+    private int z;
     private int filas;
     private int columnas;
 
@@ -41,6 +37,19 @@ public class Ejecutable extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.getIconImage();
     }
+
+    public void setColumnas(int columnas) {
+        this.columnas = columnas;
+    }
+
+    public int getZ() {
+        return z;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
+    }
+    
     
     public String getClave() {
         return clave;
@@ -66,11 +75,9 @@ public class Ejecutable extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        BcerrarS = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         textuser = new javax.swing.JTextField();
@@ -90,30 +97,12 @@ public class Ejecutable extends javax.swing.JFrame {
         Bcancelar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
 
-        BcerrarS.setBackground(new java.awt.Color(255, 255, 255));
-        BcerrarS.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        BcerrarS.setText("Cerrar Sesión");
-        BcerrarS.setEnabled(false);
-        BcerrarS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BcerrarSActionPerformed(evt);
-            }
-        });
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(723, 490));
 
         jButton1.setText("Ver Matriz");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Ver Grafo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -124,17 +113,13 @@ public class Ejecutable extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(455, Short.MAX_VALUE))
+                .addContainerGap(583, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(384, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -203,11 +188,17 @@ public class Ejecutable extends javax.swing.JFrame {
         textConfirmacion.setColumns(20);
         textConfirmacion.setRows(5);
         textConfirmacion.setEnabled(false);
+        textConfirmacion.setOpaque(false);
         jScrollPane3.setViewportView(textConfirmacion);
 
         Bok.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         Bok.setText("Ok");
         Bok.setEnabled(false);
+        Bok.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BokMouseClicked(evt);
+            }
+        });
         Bok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BokActionPerformed(evt);
@@ -346,6 +337,7 @@ public class Ejecutable extends javax.swing.JFrame {
         filas=Integer.parseInt(filass);
         columnas=Integer.parseInt(columnass);
         obj = new MatrizListaligadaforma2(filas,columnas);
+        z=filas-1;
         for (int i = 2; i <lineas.length; i++) {
             String []colaboradorT,temp,temporal;
             
@@ -371,7 +363,6 @@ public class Ejecutable extends javax.swing.JFrame {
     }
     
     private void CrearMatriz(int filaInicial,int filaFinal,int valor){
-        int z=filas-1;
         int w,x,y=0;
         for (int i = filaInicial; i <= filaFinal; i++) {
             w=i;
@@ -390,14 +381,9 @@ public class Ejecutable extends javax.swing.JFrame {
                 y=columnas-1;
                 columnas--;
             }
-            
             obj.setCelda(x,y,valor);
         }
     }
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void textpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textpassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textpassActionPerformed
@@ -412,7 +398,7 @@ public class Ejecutable extends javax.swing.JFrame {
                 if (clave.equals(String.valueOf(pass))) {
                     Bcarga.setEnabled(true);
                     Bedit.setEnabled(true);
-                    BcerrarS.setEnabled(true);
+                    BcerrarS1.setEnabled(true);
                 } else {
                     messErr = "Contraseña Incorrecta";
                     errorPass.setText(messErr);
@@ -453,9 +439,8 @@ public class Ejecutable extends javax.swing.JFrame {
             } catch (Exception e) {
             }
         }
+        cadenita=cadena;
         //CrearMatCostosyVecEstaciones(cadena);
-        MatrizCargar(cadena);
-        //Bedit.setEnabled(false);
         Bcarga.setEnabled(false);
         Bok.setEnabled(true);
         Bcancelar.setEnabled(true);
@@ -465,46 +450,52 @@ public class Ejecutable extends javax.swing.JFrame {
     private void BeditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BeditActionPerformed
         setUsuarios(JOptionPane.showInputDialog(null, "Ingrese el nuevo usuario"));
         setClave(JOptionPane.showInputDialog(null, "Ingrese la nueva clave"));
-        //Bedit.setEnabled(false);
-        //Bcarga.setEnabled(false);
+        Bedit.setEnabled(false);
+        BInicio.setEnabled(false);
     }//GEN-LAST:event_BeditActionPerformed
 
-    private void BcerrarSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BcerrarSActionPerformed
-        Bcarga.setEnabled(false);
-        Bedit.setEnabled(false);
-        BcerrarS.setEnabled(false);
-    }//GEN-LAST:event_BcerrarSActionPerformed
-
-    private void BcerrarS1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BcerrarS1ActionPerformed
-        Bcarga.setEnabled(false);
-        Bedit.setEnabled(false);
-        BcerrarS.setEnabled(false);
-    }//GEN-LAST:event_BcerrarS1ActionPerformed
-
     private void BokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BokActionPerformed
-        /*if (matTemp != null && estTemp != null) {
-            setMatCostos(matTemp);
-            setEstaciones(estTemp);
-            JOptionPane.showMessageDialog(null, "Las estaciones Se han cargado satisfactoreamente");
-            textConfirmacion.setText("");
-            Bok.setEnabled(false);
-            Bcancelar.setEnabled(false);
-            Bcarga.setEnabled(false);
-        } else {
-            JOptionPane.showMessageDialog(null, "Algo Salio Mal\n \t"
-                + "favor revisar el Archivo y proceda a cargarlo nuevamente.\n \t"
-                + "Gracias.");
-        }*/
+        MatrizCargar(cadenita);
+        JOptionPane.showMessageDialog(null, "El archivo Se ha cargado satisfactoreamente");
+        Bcancelar.setEnabled(false);
+        Bok.setEnabled(false);
+        textConfirmacion.setText("");
     }//GEN-LAST:event_BokActionPerformed
 
     private void BcancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BcancelarActionPerformed
         JOptionPane.showMessageDialog(null, "No se guardaron cambios ");
         textConfirmacion.setText("");
+        Bok.setEnabled(false);
+        Bcancelar.setEnabled(false);
     }//GEN-LAST:event_BcancelarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println(obj);
+       try{
+            JFrame vista = new JFrame();
+            vista.setVisible(true);
+            vista.setSize(600, 400);
+            vista.setLocationRelativeTo(null);
+            vista.add(areamatriz);
+            areamatriz.setVisible(true);
+            areamatriz.setSize(600, 400);
+            areamatriz.setBackground(Color.WHITE);
+            areamatriz.setText(obj.toString());
+       // System.out.println(obj);
+       }catch(Exception E){
+            JOptionPane.showMessageDialog(null, "Recuerde cargar el archivo");
+       }
+            
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void BokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BokMouseClicked
+
+    }//GEN-LAST:event_BokMouseClicked
+
+    private void BcerrarS1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BcerrarS1ActionPerformed
+        Bcarga.setEnabled(false);
+        Bedit.setEnabled(false);
+        BcerrarS1.setEnabled(false);
+    }//GEN-LAST:event_BcerrarS1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -545,13 +536,11 @@ public class Ejecutable extends javax.swing.JFrame {
     private javax.swing.JButton BInicio;
     private javax.swing.JButton Bcancelar;
     private javax.swing.JButton Bcarga;
-    private javax.swing.JButton BcerrarS;
     private javax.swing.JButton BcerrarS1;
     private javax.swing.JButton Bedit;
     private javax.swing.JButton Bok;
     private javax.swing.JLabel errorPass;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
